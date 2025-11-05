@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoFoto - Platform AI untuk Kebutuhan Fotografi Anda</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #f97316;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(79, 70, 229, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 24px;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+        
+        /* Login Form */
+        .login-section {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .login-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--light);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .btn-block {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .modal h2 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .modal p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">GoFoto</a>
+                <div class="nav-links">
+                    <a href="#features">Fitur</a>
+                    <a href="#login">Masuk</a>
+                    <a href="#about">Tentang</a>
+                    <a href="#contact">Kontak</a>
+                </div>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-outline" id="loginBtn">Masuk</a>
+                    <a href="#" class="btn btn-primary" id="registerBtn">Daftar</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Transformasi Foto dengan Kecerdasan Buatan</h1>
+            <p>GoFoto menghadirkan solusi AI untuk semua kebutuhan fotografi Anda, dari pengeditan sederhana hingga pembuatan gambar profesional.</p>
+            <a href="#features" class="btn btn-primary">Jelajahi Fitur</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Fitur Unggulan GoFoto</h2>
+                <p>Temukan berbagai fitur canggih yang akan mengubah cara Anda bekerja dengan gambar</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🖼️</div>
+                    <h3>Gabungin Gambar</h3>
+                    <p>Gabungkan beberapa gambar menjadi satu komposisi yang menarik dengan mudah.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Bikinin Foto Produk</h3>
+                    <p>Hasilkan foto produk profesional yang siap untuk e-commerce dan media sosial.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💑</div>
+                    <h3>Buat Foto Prewedding</h3>
+                    <p>Kreasikan foto prewedding yang romantis dan berkesan dengan sentuhan AI.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Buat Model AI</h3>
+                    <p>Hasilkan model AI yang realistis untuk berbagai keperluan desain dan konten.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Ganti Pose Model</h3>
+                    <p>Ubah pose model dalam foto tanpa harus melakukan pemotretan ulang.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <h3>Sewa Fotografer AI</h3>
+                    <p>Dapatkan hasil foto profesional untuk berbagai acara seperti foto bayi, umrah, dll.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Perbaiki Fotoku yang Buram</h3>
+                    <p>Tingkatkan kualitas foto buram menjadi jelas dan tajam dengan teknologi AI.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📢</div>
+                    <h3>Bikin Banner Iklan</h3>
+                    <p>Desain banner iklan yang menarik dan efektif untuk kampanye pemasaran Anda.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Buat Carousel Produk</h3>
+                    <p>Buat carousel produk yang menarik untuk media sosial dan website.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h3>Desain Ulang Ruanganku</h3>
+                    <p>Visualisasikan ulang ruangan Anda dengan berbagai gaya dan tata letak.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Ubah Sketsaku Jadi Gambar</h3>
+                    <p>Transformasikan sketsa tangan menjadi gambar digital yang realistis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section class="login-section" id="login">
+        <div class="container">
+            <div class="login-container">
+                <h2>Masuk ke Akun GoFoto</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="Masukkan email yang sudah terdaftar" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+                </form>
+                <div class="form-footer">
+                    <p>Belum punya akun? Hubungi admin untuk mendaftar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>GoFoto</h3>
+                    <p>Platform AI terdepan untuk solusi fotografi dan desain grafis.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Fitur</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Gabungin Gambar</a></li>
+                        <li><a href="#">Foto Produk</a></li>
+                        <li><a href="#">Foto Prewedding</a></li>
+                        <li><a href="#">Model AI</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Perusahaan</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Karir</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Bantuan</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 GoFoto. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <h2>Akses Halaman Pendaftaran</h2>
+            <p>Masukkan kata sandi untuk mengakses halaman pendaftaran:</p>
+            <div class="form-group">
+                <input type="password" id="passwordInput" class="form-control" placeholder="Masukkan kata sandi">
+            </div>
+            <button id="submitPassword" class="btn btn-primary">Masuk</button>
+            <button id="closeModal" class="btn btn-outline" style="margin-left: 10px;">Batal</button>
+        </div>
+    </div>
+
+    <script>
+        // Simpan data pengguna di localStorage
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify([]));
+        }
+
+        // Modal untuk halaman pendaftaran
+        const registerBtn = document.getElementById('registerBtn');
+        const passwordModal = document.getElementById('passwordModal');
+        const submitPassword = document.getElementById('submitPassword');
+        const closeModal = document.getElementById('closeModal');
+        const passwordInput = document.getElementById('passwordInput');
+
+        registerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            passwordModal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', function() {
+            passwordModal.style.display = 'none';
+            passwordInput.value = '';
+        });
+
+        submitPassword.addEventListener('click', function() {
+            if (passwordInput.value === 'iwancilibur') {
+                window.location.href = 'register.html';
+            } else {
+                alert('Kata sandi salah!');
+                passwordInput.value = '';
+            }
+        });
+
+        // Form login
+        const loginForm = document.getElementById('loginForm');
+        
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const users = JSON.parse(localStorage.getItem('users'));
+            
+            // Cek apakah email terdaftar
+            const userExists = users.some(user => user.email === email);
+            
+            if (userExists) {
+                alert('Login berhasil! Mengarahkan ke dashboard...');
+                // Di sini biasanya akan diarahkan ke dashboard
+                // window.location.href = 'dashboard.html';
+            } else {
+                alert('Email tidak terdaftar. Hubungi admin untuk mendaftar.');
+            }
+        });
+
+        // Smooth scrolling untuk anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
