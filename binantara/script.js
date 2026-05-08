@@ -44,14 +44,29 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-// ===== SMOOTH ACTIVE NAV =====
+// ===== SMOOTH ACTIVE NAV + BOTTOM NAV =====
 const sections = document.querySelectorAll('section[id]');
 window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    if (window.scrollY >= s.offsetTop - 140) current = s.id;
   });
+
+  // Top navbar highlight
   document.querySelectorAll('.nav-links a').forEach(a => {
     a.style.color = a.getAttribute('href') === '#' + current ? '#ff6b00' : '';
+  });
+
+  // Bottom nav highlight
+  document.querySelectorAll('.bottom-nav-item').forEach(a => {
+    a.classList.toggle('active', a.dataset.section === current);
+  });
+});
+
+// ===== BOTTOM NAV SMOOTH SCROLL =====
+document.querySelectorAll('.bottom-nav-item').forEach(item => {
+  item.addEventListener('click', (e) => {
+    document.querySelectorAll('.bottom-nav-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
   });
 });
