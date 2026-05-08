@@ -22,9 +22,36 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 });
 
 // ===== COPY PROMPT =====
+let isCopyIntent = false;
+
+document.querySelectorAll('.prompt-card[onclick]').forEach(card => {
+  card.removeAttribute('onclick');
+  card.addEventListener('pointerdown', () => { isCopyIntent = true; });
+  card.addEventListener('pointermove', () => { isCopyIntent = false; });
+  card.addEventListener('pointerup', () => {
+    if (!isCopyIntent) return;
+    isCopyIntent = false;
+    copyPrompt(card);
+  });
+});
+
 function copyPrompt(el) {
   const text = el.querySelector('p').innerText;
-  navigator.clipboard.writeText(text).then(() => showToast());
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => showToast()).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); showToast(); } catch(e) {}
+  document.body.removeChild(ta);
 }
 
 function showToast() {
